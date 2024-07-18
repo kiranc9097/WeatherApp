@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y2D-Oi-J42">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
@@ -105,13 +105,13 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Cities"/>
                                 <connections>
                                     <action selector="nextViewOpen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bWz-4q-RMy"/>
-                                    <segue destination="jlp-k8-oYt" kind="presentation" identifier="citiesWeather" modalPresentationStyle="fullScreen" id="pOi-Hl-1w3"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemOrangeColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="0hR-8G-SbK"/>
                     <connections>
                         <outlet property="conditionLabel" destination="yjH-D4-aEx" id="Qgl-f3-T5e"/>
                         <outlet property="locationLabel" destination="Ef5-ep-qGk" id="mVI-VB-R0S"/>
@@ -122,7 +122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75.572519083969468" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="1002.2900763358779" y="-2.1126760563380285"/>
         </scene>
         <!--Cities View Controller-->
         <scene sceneID="Tf4-gw-6KB">
@@ -192,7 +192,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w87-JT-DOL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="846.56488549618314" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="1773.2824427480916" y="-2.1126760563380285"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="PML-Wo-tcA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Y2D-Oi-J42" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hMh-CP-WVA">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="DCv-mW-uoa"/>
+                        <segue destination="jlp-k8-oYt" kind="presentation" modalPresentationStyle="fullScreen" id="gqy-fv-jmf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xX6-Ld-kHn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75.572519083969468" y="-2.1126760563380285"/>
         </scene>
     </scenes>
     <resources>
