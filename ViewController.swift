@@ -14,6 +14,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var isCelsius = true
     var alertController: UIAlertController?
     var citiesWeather: [WeatherResponse] = []
+    var originalTemperatureC: Double?
     
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var locationLabel: UILabel!
@@ -51,75 +52,74 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchWeather(for location: String) {
-        weatherService.fetchWeather(for: location) { [weak self] response in
-            DispatchQueue.main.async {
-                guard let self = self, let response = response else {
-                    self?.showAlert(title: "Error", message: "Failed to fetch weather data.")
-                    return
+            weatherService.fetchWeather(for: location) { [weak self] response in
+                DispatchQueue.main.async {
+                    guard let self = self, let response = response else {
+                        self?.showAlert(title: "Error", message: "Failed to fetch weather data.")
+                        return
+                    }
+                    self.updateUI(with: response)
+                    self.citiesWeather.append(response)
                 }
-                self.updateUI(with: response)
-                self.citiesWeather.append(response)
             }
         }
-    }
-    
-    func updateUI(with response: WeatherResponse) {
-        locationLabel.text = response.location.name
-        conditionLabel.text = response.current.condition.text
-        temperatureLabel.text = "\(response.current.tempC)°C"
-        updateSymbolImage(for: response.current.condition.code)
-        updateTemperatureLabel()
-    }
-    
-    func updateSymbolImage(for conditionCode: Int) {
-        switch conditionCode {
-        case 1000:
-            symbolImageView.image = UIImage(systemName: "sun.max.fill")
-        case 1003:
-            symbolImageView.image = UIImage(systemName: "cloud.sun.fill")
-        default:
-            symbolImageView.image = UIImage(systemName: "questionmark.circle")
+        
+        func updateUI(with response: WeatherResponse) {
+            locationLabel.text = response.location.name
+            conditionLabel.text = response.current.condition.text
+            originalTemperatureC = response.current.tempC
+            updateTemperatureLabel()
+            updateSymbolImage(for: response.current.condition.code)
         }
-    }
-    
-    func updateTemperatureLabel() {
-        if let tempText = temperatureLabel.text, let tempValue = Double(tempText.dropLast(2)) {
+        
+        func updateSymbolImage(for conditionCode: Int) {
+            switch conditionCode {
+            case 1000:
+                symbolImageView.image = UIImage(systemName: "sun.max.fill")
+            case 1003:
+                symbolImageView.image = UIImage(systemName: "cloud.sun.fill")
+            default:
+                symbolImageView.image = UIImage(systemName: "questionmark.circle")
+            }
+        }
+        
+        func updateTemperatureLabel() {
+            guard let originalTempC = originalTemperatureC else { return }
             if isCelsius {
-                temperatureLabel.text = String(format: "%.1f°C", tempValue)
+                temperatureLabel.text = String(format: "%.1f°C", originalTempC)
             } else {
-                let fahrenheit = (tempValue * 9/5) + 32
+                let fahrenheit = (originalTempC * 9/5) + 32
                 temperatureLabel.text = String(format: "%.1f°F", fahrenheit)
             }
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            fetchWeather(for: "\(latitude),\(longitude)")
+        
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            if let location = locations.first {
+                let latitude = location.coordinate.latitude
+                let longitude = location.coordinate.longitude
+                fetchWeather(for: "\(latitude),\(longitude)")
+            }
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to get user location: \(error)")
-        showAlert(title: "Error", message: "Failed to get your location. Please try again.")
-    }
-    
-    func showAlert(title: String, message: String) {
-        if alertController != nil {
-            alertController?.dismiss(animated: false, completion: nil)
+        
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            print("Failed to get user location: \(error)")
+            showAlert(title: "Error", message: "Failed to get your location. Please try again.")
         }
-        alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController?.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alertController!, animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showCities" {
-            if let destinationVC = segue.destination as? CitiesViewController {
-                destinationVC.citiesWeather = citiesWeather
+        
+        func showAlert(title: String, message: String) {
+            if alertController != nil {
+                alertController?.dismiss(animated: false, completion: nil)
+            }
+            alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertController?.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alertController!, animated: true)
+        }
+        
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "showCities" {
+                if let destinationVC = segue.destination as? CitiesViewController {
+                    destinationVC.citiesWeather = citiesWeather
+                }
             }
         }
     }
-}

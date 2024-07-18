@@ -82,11 +82,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gQw-XL-72I">
-                                <rect key="frame" x="229" y="580" width="131" height="32"/>
+                                <rect key="frame" x="210" y="580" width="169" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Celsius"/>
-                                    <segment title="Second"/>
+                                    <segment title="Fahrenheit"/>
                                 </segments>
                                 <connections>
                                     <action selector="toggleTemperature:" destination="BYZ-38-t0r" eventType="valueChanged" id="A8L-xP-Tt9"/>
@@ -99,10 +99,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Qr-oa-C62">
-                                <rect key="frame" x="158" y="755" width="67" height="35"/>
+                                <rect key="frame" x="99" y="748" width="189" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Cities"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Cities" cornerStyle="capsule"/>
                                 <connections>
                                     <action selector="nextViewOpen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bWz-4q-RMy"/>
                                     <segue destination="jlp-k8-oYt" kind="presentation" identifier="showCities" id="4cn-fZ-x7R"/>
@@ -138,7 +138,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeatherCell" id="3Ij-oY-Mu2">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeatherCell" id="3Ij-oY-Mu2" customClass="WeatherTableViewCell" customModule="WeatherApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="361" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Ij-oY-Mu2" id="c4d-ID-cS0">
@@ -152,7 +152,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVi-bg-N2a">
-                                                    <rect key="frame" x="159" y="11" width="43" height="21"/>
+                                                    <rect key="frame" x="144" y="11" width="42.333333333333343" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -170,15 +170,20 @@
                                                 <constraint firstItem="UbM-wY-kk4" firstAttribute="top" secondItem="c4d-ID-cS0" secondAttribute="topMargin" id="4uI-nQ-wEH"/>
                                                 <constraint firstItem="UbM-wY-kk4" firstAttribute="leading" secondItem="c4d-ID-cS0" secondAttribute="leadingMargin" id="TER-5S-x9W"/>
                                                 <constraint firstAttribute="trailing" secondItem="ll3-xh-SBm" secondAttribute="trailing" id="TY8-Yj-Khl"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="UbM-wY-kk4" secondAttribute="trailing" constant="241" id="Uvc-Cb-C8Z"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="UbM-wY-kk4" secondAttribute="trailing" id="Uvc-Cb-C8Z"/>
                                                 <constraint firstItem="mVi-bg-N2a" firstAttribute="top" secondItem="c4d-ID-cS0" secondAttribute="topMargin" id="VAM-w5-xcK"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="mVi-bg-N2a" secondAttribute="bottom" constant="1" id="ZYo-Mw-rg0"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="mVi-bg-N2a" secondAttribute="bottom" id="ZYo-Mw-rg0"/>
                                                 <constraint firstAttribute="bottom" secondItem="ll3-xh-SBm" secondAttribute="bottom" constant="12.33" id="cH8-SW-qRW"/>
-                                                <constraint firstItem="mVi-bg-N2a" firstAttribute="leading" secondItem="c4d-ID-cS0" secondAttribute="leadingMargin" constant="139" id="hee-VZ-SiH"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="mVi-bg-N2a" secondAttribute="trailing" constant="139" id="ncR-TI-mci"/>
-                                                <constraint firstItem="ll3-xh-SBm" firstAttribute="leading" secondItem="c4d-ID-cS0" secondAttribute="leading" constant="251" id="qe8-RT-FrE"/>
+                                                <constraint firstItem="mVi-bg-N2a" firstAttribute="leading" secondItem="c4d-ID-cS0" secondAttribute="leadingMargin" constant="124" id="hee-VZ-SiH"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="mVi-bg-N2a" secondAttribute="trailing" id="ncR-TI-mci"/>
+                                                <constraint firstItem="ll3-xh-SBm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="c4d-ID-cS0" secondAttribute="leading" symbolic="YES" id="qe8-RT-FrE"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cityNameLabel" destination="UbM-wY-kk4" id="kDX-bt-HSq"/>
+                                            <outlet property="temperatureLabel" destination="mVi-bg-N2a" id="0dU-cn-Dai"/>
+                                            <outlet property="weatherConditionLabel" destination="ll3-xh-SBm" id="Oer-op-KYG"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
