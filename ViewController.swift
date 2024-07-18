@@ -13,20 +13,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
     var isCelsius = true
     var alertController: UIAlertController?
-
+    var citiesWeather: [WeatherResponse] = []
+    
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var symbolImageView: UIImageView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
-
+    
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         if let location = searchTextField.text, !location.isEmpty {
             fetchWeather(for: location)
@@ -34,16 +35,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             showAlert(title: "Error", message: "Please enter a location to search.")
         }
     }
-
+    
     @IBAction func locationButtonTapped(_ sender: UIButton) {
         locationManager.requestLocation()
     }
-
+    
     @IBAction func toggleTemperature(_ sender: UISegmentedControl) {
         isCelsius = sender.selectedSegmentIndex == 0
         updateTemperatureLabel()
     }
-
+    
+    
+    @IBAction func nextViewOpen(_ sender: UIButton) {
+        performSegue(withIdentifier: "citiesWeather", sender: self)
+    }
+    
     func fetchWeather(for location: String) {
         weatherService.fetchWeather(for: location) { [weak self] response in
             DispatchQueue.main.async {
@@ -52,10 +58,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     return
                 }
                 self.updateUI(with: response)
+                self.citiesWeather.append(response) // Add the response to citiesWeather array
             }
         }
     }
-
+    
     func updateUI(with response: WeatherResponse) {
         locationLabel.text = response.location.name
         conditionLabel.text = response.current.condition.text
@@ -63,7 +70,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         updateSymbolImage(for: response.current.condition.code)
         updateTemperatureLabel()
     }
-
+    
     func updateSymbolImage(for conditionCode: Int) {
         switch conditionCode {
         case 1000:
@@ -74,7 +81,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             symbolImageView.image = UIImage(systemName: "questionmark.circle")
         }
     }
-
+    
     func updateTemperatureLabel() {
         if let tempText = temperatureLabel.text, let tempValue = Double(tempText.dropLast(2)) {
             if isCelsius {
@@ -85,7 +92,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             let latitude = location.coordinate.latitude
@@ -93,12 +100,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             fetchWeather(for: "\(latitude),\(longitude)")
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to get user location: \(error)")
         showAlert(title: "Error", message: "Failed to get your location. Please try again.")
     }
-
+    
     func showAlert(title: String, message: String) {
         if alertController != nil {
             alertController?.dismiss(animated: false, completion: nil)
@@ -115,5 +122,4 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
-
 }

@@ -8,7 +8,6 @@
 import Foundation
 
 struct WeatherService {
-    // Note: Replace with your actual API key and ensure it's secured properly
     private let apiKey = "97df990f564a4f5596304321241803"
     private let baseURL = "https://api.weatherapi.com/v1"
 
