@@ -47,7 +47,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     @IBAction func nextViewOpen(_ sender: UIButton) {
-        performSegue(withIdentifier: "citiesWeather", sender: self)
+        performSegue(withIdentifier: "showCities", sender: self)
     }
     
     func fetchWeather(for location: String) {

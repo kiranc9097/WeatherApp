@@ -14,7 +14,7 @@ class CitiesViewController: UIViewController, UITableViewDataSource {
     
     var citiesWeather: [WeatherResponse] = []
 
-        override func viewDidLoad() {
+    override func viewDidLoad() {
             super.viewDidLoad()
             tableView.dataSource = self
         }
@@ -24,10 +24,12 @@ class CitiesViewController: UIViewController, UITableViewDataSource {
         }
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherTableViewCell
             let weather = citiesWeather[indexPath.row]
-            cell.textLabel?.text = weather.location.name
-            cell.detailTextLabel?.text = "\(weather.current.tempC)°C"
+            cell.cityNameLabel.text = weather.location.name
+            cell.temperatureLabel.text = "\(weather.current.tempC)°C"
+            cell.weatherConditionLabel.text = weather.current.condition.text
+
             switch weather.current.condition.code {
             case 1000:
                 cell.imageView?.image = UIImage(systemName: "sun.max.fill")
@@ -36,6 +38,7 @@ class CitiesViewController: UIViewController, UITableViewDataSource {
             default:
                 cell.imageView?.image = UIImage(systemName: "questionmark.circle")
             }
+            
             return cell
         }
     }
