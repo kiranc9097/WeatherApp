@@ -70,7 +70,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             symbolImageView.image = UIImage(systemName: "sun.max.fill")
         case 1003:
             symbolImageView.image = UIImage(systemName: "cloud.sun.fill")
-        // Add more cases as needed
         default:
             symbolImageView.image = UIImage(systemName: "questionmark.circle")
         }
@@ -108,4 +107,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         alertController?.addAction(UIAlertAction(title: "OK", style: .default))
         present(alertController!, animated: true)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCities" {
+            if let destinationVC = segue.destination as? CitiesViewController {
+                destinationVC.citiesWeather = citiesWeather
+            }
+        }
+    }
+
 }
