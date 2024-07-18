@@ -58,7 +58,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     return
                 }
                 self.updateUI(with: response)
-                self.citiesWeather.append(response) // Add the response to citiesWeather array
+                self.citiesWeather.append(response)
             }
         }
     }
